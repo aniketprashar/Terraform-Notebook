@@ -1,0 +1,22 @@
+# 1. Login to Azure account
+az login
+
+# 2. Get the details of default subscription.
+az account show
+
+# 3. Set a subscription to be the current active subscription.
+az account set --subscription "subscription_name" #or
+az account set -s subscription_id
+
+# 4. List Resource Groups in tab separated value format
+az group list --query "[][name]" -o tsv
+
+# 5. Logout of azure cli session
+az logout
+
+# 6. Login using service principal
+az login --service-principal -u {client_id} -p {client_secret} --tenant {tenant_id}
+
+# 7. Create service principal
+az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/{subscription_id}"
+

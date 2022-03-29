@@ -1,5 +1,12 @@
 # Azure Terraform
 
+## Basic Structure:
+
+`main.tf` - main configuration file
+`variables.tf` - variables used for deployment
+`terraform.tfvars` - update variable settings. Name must be terraform.tfvars. For custom name use `*.auto.tfvars`
+`Terraform locals` - Assign a name to an expression like company name which doesn't need to be changed frequently but will have many instances which can be changed at once. Overuse can make code difficult to read.
+
 ## Terraform Commands V1
 
 - `az login`
@@ -59,3 +66,5 @@
     - Example - `subnet="${var.env=="prod" ? var.prod-subnet : var.dev-subnet}"
 - Backend block doesn't support interpolation of values because terraform wants the backend to be initialized before hand, so there is a command to pass during the runtime.
 - `terraform output -json` - if we have to pass the output value to automation, it will unhide the sensative values and pass it for automation.
+- `terraform plan -var-file="dev.tfvars` - provides variable file for different environments.
+- `terraform plan -var="variable_name=Variable-Value"` - pass variables using command line arguments. Precedence is `terraform.tfvars` > `*.auto.tfvars` > `-var` command line argument.

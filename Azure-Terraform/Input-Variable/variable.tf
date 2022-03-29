@@ -3,10 +3,12 @@ variable "variable_string" {
   type        = string
   default     = "aniket"
 }
+# If no default value is provided then the variable is optional
 
 variable "variable_number" {
-  description = "meaningful description of the variable"
+  description = "sensitive flag prevents it from displaying during deployment"
   type        = number
+  sensitive   = true
   default     = 2
 }
 

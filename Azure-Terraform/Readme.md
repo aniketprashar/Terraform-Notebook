@@ -1,11 +1,12 @@
 # Azure Terraform
 
-## Basic Structure:
+## Basic Structure
 
 `main.tf` - main configuration file
 `variables.tf` - variables used for deployment
 `terraform.tfvars` - update variable settings. Name must be terraform.tfvars. For custom name use `*.auto.tfvars`
-`Terraform locals` - Assign a name to an expression like company name which doesn't need to be changed frequently but will have many instances which can be changed at once. Overuse can make code difficult to read.
+`locals.tf` - Assign a name to an expression like company name which doesn't need to be changed frequently but will have many instances which can be changed at once. Overuse can make code difficult to read
+`output.tf` - Shows output value
 
 ## Terraform Commands V1
 
@@ -30,7 +31,7 @@
 
 ## Terraform Commands V3
 
-- `terraform plan -destroy` - destroy resources in sequential way. Decides which resource needs to be removed first.
+- `terraform plan -destroy` - destroy resources in sequential way; decides which resource needs to be removed first.
 - `terraform destroy` - same as terraform apply
 - `terraform destroy -auto-approve` - silently destroys the resources without any prompt.
 - `terraform destroy -target=azurerm_resource_group.rg` - It will delete the Resource Group
@@ -49,21 +50,24 @@
 - `terraform workspace select Dev` - selects the workspace called Dev to work on.
 - `terraform apply -var-file=Dev.tfvars` - different environments will have different argument files.
 
-## Misclaneous
+## Terraform Functions
 
-- No need to define terraform provider in each terraform file in the same directory
 - Concatination:
   - `join("", ["Aniket", "Prashar"])` Output= AniketPrashar
   - `join(", ", ["Aniket", "Prashar"])` Output= Aniket, Prashar
   - `${variable_name}-Aniket` where variable_name="Prashar" Output= Prashar-Aniket
+- Conditional Operator - `condition ? truevalue : falsevalue`
+  - Example - `subnet="${var.env=="prod" ? var.prod-subnet : var.dev-subnet}"`
+
+## Misclaneous
+
+- No need to define terraform provider in each terraform file in the same directory
 - As terraform runs in a working directory, it plans and applies the configuration based on all the configuration files in the directory. So it is a good practice to split the code into multiple config files.
 - Different ways of storing state file in storage account
   - Using Azure CLI or Service principal
   - Using MSI
   - Using SAS token
   - Using access key of storage account
-  - Conditional operator - `condition ? truevalue : falsevalue`
-    - Example - `subnet="${var.env=="prod" ? var.prod-subnet : var.dev-subnet}"
 - Backend block doesn't support interpolation of values because terraform wants the backend to be initialized before hand, so there is a command to pass during the runtime.
 - `terraform output -json` - if we have to pass the output value to automation, it will unhide the sensative values and pass it for automation.
 - `terraform plan -var-file="dev.tfvars` - provides variable file for different environments.

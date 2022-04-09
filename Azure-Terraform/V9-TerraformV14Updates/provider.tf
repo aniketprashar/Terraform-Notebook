@@ -1,3 +1,0 @@
-provider "az" {
-  features {}
-}
